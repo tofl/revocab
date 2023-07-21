@@ -6,13 +6,13 @@ export const useLanguagesStore = defineStore('languages', {
             data: {
                 spanish: {
                     all: [
-                        {word: 'con', translation: 'avec'},
-                        {word: 'falda', translation: 'jupe'},
+                        { word: 'con', translation: 'avec' },
+                        { word: 'falda', translation: 'jupe' },
                     ],
                     verbs: [
-                        {word: 'comer', translation: 'manger'},
-                        {word: 'tener', translation: 'avoir'},
-                        {word: 'ir', translation: 'aller'},
+                        { word: 'comer', translation: 'manger' },
+                        { word: 'tener', translation: 'avoir' },
+                        { word: 'ir', translation: 'aller' },
                     ],
                 },
             },
@@ -63,6 +63,25 @@ export const useLanguagesStore = defineStore('languages', {
 
             this.data[language] = { all: [] };
             localStorage.setItem('data', JSON.stringify(this.data));
-        }
+        },
+
+        addWord(language, category, word, translation) {
+            this.data[language][category].push({ word, translation });
+            localStorage.setItem('data', JSON.stringify(this.data));
+        },
+
+        addCategory(language, category) {
+            this.data[language][category] = [];
+            localStorage.setItem('data', JSON.stringify(this.data));
+        },
+
+        deleteCategory(language, category, deleteWords) {
+            if (!deleteWords) {
+                this.data[language].all = this.data[language].all.concat(this.data[language][category]);
+            }
+
+            delete this.data[language][category];
+            localStorage.setItem('data', JSON.stringify(this.data));
+        },
     },
 });

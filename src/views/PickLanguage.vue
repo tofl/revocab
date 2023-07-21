@@ -48,7 +48,7 @@
 import { useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useLanguagesStore } from '@/stores/languages';
-import BaseContainer from '@/components/layout/BaseContainer.vue';
+import BaseContainer from '@/components/ui/BaseContainer.vue';
 
 const languagesStore = useLanguagesStore();
 
