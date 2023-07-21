@@ -1,5 +1,5 @@
 <template>
-  <header class="flex justify-between border-b">
+  <header class="flex justify-between border-b h-14 items-center px-10">
     <div>
       <RouterLink to="/">Revocab</RouterLink>
     </div>
