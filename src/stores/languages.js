@@ -1,21 +1,11 @@
 import { defineStore } from 'pinia'
 
+const firstLetterToUppercase = w => w.charAt(0).toUpperCase() + w.slice(1, w.length).toLowerCase();
+
 export const useLanguagesStore = defineStore('languages', {
     state() {
         return {
-            data: {
-                spanish: {
-                    all: [
-                        { word: 'con', translation: 'avec' },
-                        { word: 'falda', translation: 'jupe' },
-                    ],
-                    verbs: [
-                        { word: 'comer', translation: 'manger' },
-                        { word: 'tener', translation: 'avoir' },
-                        { word: 'ir', translation: 'aller' },
-                    ],
-                },
-            },
+            data: {},
         };
     },
 
@@ -28,6 +18,30 @@ export const useLanguagesStore = defineStore('languages', {
                     return Object.keys(state.data);
                 }
             }
+        },
+
+        allWords: (state) => {
+            return (language) => {
+                const words = [];
+                Object.keys(state.data[language]).forEach((k) => {
+                        return state.data[language][k].forEach((el) => {
+                                words.push({
+                                    id: el.id,
+                                    word: firstLetterToUppercase(el.word),
+                                    translation: firstLetterToUppercase(el.translation)
+                                });
+                            }
+                        );
+                    },
+                );
+                return words;
+            };
+        },
+
+        wordsFromCategory: (state) => (language, category) => {
+            return state.data[language][category].map((w) => {
+                return { id: w.id, word: firstLetterToUppercase(w.word), translation: firstLetterToUppercase(w.translation) };
+            })
         },
 
         allCategories: state => language => Object.keys(state.data[language]),
@@ -66,7 +80,15 @@ export const useLanguagesStore = defineStore('languages', {
         },
 
         addWord(language, category, word, translation) {
-            this.data[language][category].push({ word, translation });
+            const id = `${this.wordCount(language)}${Math.floor(Math.random() * 100000)}`;
+            this.data[language][category].push({ id, word, translation });
+            localStorage.setItem('data', JSON.stringify(this.data));
+        },
+
+        deleteWord(language, wordId) {
+            Object.keys(this.data[language]).forEach((key) => {
+                this.data[language][key] = this.data[language][key].filter((w) => w.id !== wordId);
+            });
             localStorage.setItem('data', JSON.stringify(this.data));
         },
 
