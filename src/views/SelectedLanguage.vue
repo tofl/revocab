@@ -84,6 +84,7 @@
       </BaseDialog>
 
       <p
+        v-if="languagesStore.categoryCount(language.toLowerCase()) > 0"
         @click="showDeleteCategoryDialog = true"
         class="mr-3 cursor-pointer"
       >
@@ -172,19 +173,6 @@ function addWord() {
   newWordCategory.value = 'all';
 }
 
-// Add category
-const showNewCategoryDialog = ref(false);
-const newCategory = ref('');
-function addCategory() {
-  if (newCategory.value.length === 0) {
-    return;
-  }
-
-  languagesStore.addCategory(language.value.toLowerCase(), newCategory.value.toLowerCase());
-  showNewCategoryDialog.value = false;
-  newCategory.value = '';
-}
-
 // Delete category
 const categoriesAvailableToDelete = computed(() => languagesStore.allCategories(language.value.toLowerCase()).filter((c) => c !== 'all'));
 const showDeleteCategoryDialog = ref(false);
@@ -195,5 +183,19 @@ function deleteCategory() {
   categoryToDelete.value = categoriesAvailableToDelete.value[0];
   deleteAllWordsFromCategory.value = false;
   showDeleteCategoryDialog.value = false;
+}
+
+// Add category
+const showNewCategoryDialog = ref(false);
+const newCategory = ref('');
+function addCategory() {
+  if (newCategory.value.length === 0) {
+    return;
+  }
+
+  languagesStore.addCategory(language.value.toLowerCase(), newCategory.value.toLowerCase());
+  showNewCategoryDialog.value = false;
+  categoryToDelete.value = newCategory.value.toLowerCase();
+  newCategory.value = '';
 }
 </script>
