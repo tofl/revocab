@@ -1,38 +1,15 @@
 <template>
   <BaseContainer class="mt-5">
-    <div class="flex items-center">
-      <h1 class="text-5xl mr-2">{{ language }}</h1>
+    <div class="flex flex-col md:flex-row justify-around items-center md:items-start">
+      <div class="mb-8 md:sticky md:top-5">
+        <h1 class="text-8xl mb-4 text-main-blue">{{ language }}</h1>
 
-      <button @click="startPractice">Practice</button>
-
-      <form>
-        <select v-model="selectedCategory">
-          <option
-            v-for="category in languagesStore.allCategories(language.toLowerCase())"
-            :key="category"
-            :value="category"
-          >
-            {{ displayedWordCategoryName(category) }}
-          </option>
-        </select>
-      </form>
-    </div>
-
-    <div class="flex">
-      <p
-        @click="showNewWordDialog = true"
-        class="mr-3 cursor-pointer"
-      >
-        New word
-      </p>
-      <BaseDialog
-        :show="showNewWordDialog"
-        @close="showNewWordDialog = false"
-      >
-        <form @submit.prevent="addWord">
-          <div class="flex mb-4">
-            <p class="text-2xl mr-4">Add a new word...</p>
-            <select v-model="newWordCategory">
+        <div class="flex justify-around mb-4 md:flex-col md:items-center">
+          <p>
+            <button @click="startPractice">Practice</button>
+          </p>
+          <form>
+            <select v-model="selectedCategory">
               <option
                 v-for="category in languagesStore.allCategories(language.toLowerCase())"
                 :key="category"
@@ -41,90 +18,120 @@
                 {{ displayedWordCategoryName(category) }}
               </option>
             </select>
-          </div>
+          </form>
+        </div>
 
-          <div>
-            <input
-              type="text"
-              v-model.trim="newWord"
-              :placeholder="`Word in ${language.toLowerCase()}`"
-            />
-            <input
-              type="text"
-              v-model.trim="translation"
-              placeholder="Meaning"
-            />
-            <button>Add</button>
-          </div>
-        </form>
-      </BaseDialog>
+        <div class="flex md:flex-col md:items-center">
+          <p
+            @click="showNewWordDialog = true"
+            class="text-lg mr-3 md:mr-0 md:text-2xl cursor-pointer md:mb-5"
+          >
+            New word
+          </p>
+          <BaseDialog
+            :show="showNewWordDialog"
+            @close="showNewWordDialog = false"
+          >
+            <form @submit.prevent="addWord">
+              <div class="flex mb-4">
+                <p class="text-2xl mr-4">Add a new word...</p>
+                <select v-model="newWordCategory">
+                  <option
+                    v-for="category in languagesStore.allCategories(language.toLowerCase())"
+                    :key="category"
+                    :value="category"
+                  >
+                    {{ displayedWordCategoryName(category) }}
+                  </option>
+                </select>
+              </div>
 
-      <p
-        @click="showNewCategoryDialog = true"
-        class="mr-3 cursor-pointer"
-      >
-        New category
-      </p>
-      <BaseDialog
-        :show="showNewCategoryDialog"
-        @close="showNewCategoryDialog = false"
-      >
-        <form @submit.prevent="addCategory">
-          <p class="text-2xl mb-4">Add a category</p>
+              <div>
+                <input
+                  type="text"
+                  v-model.trim="newWord"
+                  :placeholder="`Word in ${language.toLowerCase()}`"
+                />
+                <input
+                  type="text"
+                  v-model.trim="translation"
+                  placeholder="Meaning"
+                />
+                <button>Add</button>
+              </div>
+            </form>
+          </BaseDialog>
 
-          <div>
-            <input
-              type="text"
-              v-model="newCategory"
-              placeholder="Verb, adjective, ..."
-            />
-            <button>Add</button>
-          </div>
-        </form>
-      </BaseDialog>
+          <p
+            @click="showNewCategoryDialog = true"
+            class="text-lg mr-3 md:mr-0 md:text-2xl cursor-pointer md:mb-5"
+          >
+            New category
+          </p>
+          <BaseDialog
+            :show="showNewCategoryDialog"
+            @close="showNewCategoryDialog = false"
+          >
+            <form @submit.prevent="addCategory">
+              <p class="text-2xl mb-4">Add a category</p>
 
-      <p
-        v-if="languagesStore.categoryCount(language.toLowerCase()) > 0"
-        @click="showDeleteCategoryDialog = true"
-        class="mr-3 cursor-pointer"
-      >
-        Delete category
-      </p>
-      <BaseDialog
-        :show="showDeleteCategoryDialog"
-        @close="showDeleteCategoryDialog = false"
-      >
-        <form @submit.prevent="deleteCategory">
-          <p class="text-2xl mb-4">Remove a category</p>
+              <div>
+                <input
+                  type="text"
+                  v-model="newCategory"
+                  placeholder="Verb, adjective, ..."
+                />
+                <button>Add</button>
+              </div>
+            </form>
+          </BaseDialog>
 
-          <div>
-            <select v-model="categoryToDelete">
-              <option
-                v-for="category in categoriesAvailableToDelete"
-                :key="category"
-                :value="category"
-              >
-                {{ displayedWordCategoryName(category) }}
-              </option>
-            </select>
+          <p
+            v-if="languagesStore.categoryCount(language.toLowerCase()) > 0"
+            @click="showDeleteCategoryDialog = true"
+            class="text-lg  md:text-2xl cursor-pointer md:mb-5"
+          >
+            Delete category
+          </p>
+          <BaseDialog
+            :show="showDeleteCategoryDialog"
+            @close="showDeleteCategoryDialog = false"
+          >
+            <form @submit.prevent="deleteCategory">
+              <p class="text-2xl mb-4">Remove a category</p>
 
-            <input
-              type="checkbox"
-              id="deleteAllWords"
-              v-model="deleteAllWordsFromCategory"
-            />
-            <label>Delete associated words</label>
+              <div>
+                <select v-model="categoryToDelete">
+                  <option
+                    v-for="category in categoriesAvailableToDelete"
+                    :key="category"
+                    :value="category"
+                  >
+                    {{ displayedWordCategoryName(category) }}
+                  </option>
+                </select>
 
-            <button>Delete</button>
-          </div>
-        </form>
-      </BaseDialog>
+                <input
+                  type="checkbox"
+                  id="deleteAllWords"
+                  v-model="deleteAllWordsFromCategory"
+                />
+                <label>Delete associated words</label>
+
+                <button>Delete</button>
+              </div>
+            </form>
+          </BaseDialog>
+        </div>
+      </div>
+
+      <div>
+        <WordList
+          :language="language.toLowerCase()"
+          :word-category="selectedCategory"
+        />
+      </div>
     </div>
-
-    <WordList
-      :language="language.toLowerCase()"
-      :word-category="selectedCategory"
-    />
   </BaseContainer>
 </template>
 

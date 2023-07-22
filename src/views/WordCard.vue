@@ -1,5 +1,4 @@
 <template>
-  <BaseContainer>
     <div
       class="h-screen flex flex-col justify-between"
       @keydown="nextStep"
@@ -12,10 +11,10 @@
       </p>
 
       <div class="text-center">
-        <p class="text-7xl mb-7">{{ randomWord.word }}</p>
+        <p class="text-7xl md:text-9xl mb-7">{{ randomWord.word }}</p>
         <p
-          class="text-4xl"
-          :class="{'blur-lg': hideTranslation}"
+          class="text-4xl md:text-6xl text-main-blue"
+          :class="{'blur-md': hideTranslation}"
         >
           {{ randomWord.translation }}
         </p>
@@ -23,14 +22,12 @@
 
       <p class="p-4 mt-28 text-right">Press `Space` to continue</p>
     </div>
-  </BaseContainer>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useLanguagesStore } from '@/stores/languages';
-import BaseContainer from '@/components/ui/BaseContainer.vue';
 
 const languagesStore = useLanguagesStore();
 const route = useRoute();

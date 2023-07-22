@@ -1,38 +1,45 @@
 <template>
-  <header class="flex justify-between border-b h-14 items-center px-10">
-    <div>
-      <RouterLink to="/">Revocab</RouterLink>
-    </div>
+  <header class="h-14 px-10 bg-main-blue">
+    <div class="container flex justify-between items-center h-full">
+      <div>
+        <RouterLink
+          to="/"
+          class="font-light text-lg"
+        >
+          Revocab
+        </RouterLink>
+      </div>
 
-    <div>
-      <button @click="saveStore">Save</button>
+      <div>
+        <button @click="saveStore">Save</button>
 
-      <button
-        class="ml-3"
-        @click="showImportDialog = true"
-      >
-        Import
-      </button>
-      <BaseDialog
-        :show="showImportDialog"
-        @close="showImportDialog = false"
-      >
-        <form>
-          <p class="text-2xl">Import a file</p>
-          <p class="mb-4">You can import your previously saved words using the simple form below.</p>
+        <button
+          class="ml-3"
+          @click="showImportDialog = true"
+        >
+          Import
+        </button>
+        <BaseDialog
+          :show="showImportDialog"
+          @close="showImportDialog = false"
+        >
+          <form>
+            <p class="text-2xl">Import a file</p>
+            <p class="mb-4">You can import your previously saved words using the simple form below.</p>
 
-          <div class="flex">
-            <input
-              type="file"
-              ref="fileUploader"
-              @change="handleFile"
-            />
-            <p v-if="uploadIsDone">
-              Successfully uploaded
-            </p>
-          </div>
-        </form>
-      </BaseDialog>
+            <div class="flex">
+              <input
+                type="file"
+                ref="fileUploader"
+                @change="handleFile"
+              />
+              <p v-if="uploadIsDone">
+                Successfully uploaded
+              </p>
+            </div>
+          </form>
+        </BaseDialog>
+      </div>
     </div>
   </header>
 </template>
@@ -68,3 +75,13 @@ function handleFile(e) {
   reader.readAsText(e.target.files[0]);
 }
 </script>
+
+<style scoped>
+button {
+  transition: 500ms ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-5px);
+}
+</style>

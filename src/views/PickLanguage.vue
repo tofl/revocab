@@ -1,22 +1,22 @@
 <template>
-  <BaseContainer class="mt-5">
+  <BaseContainer class="mt-12">
     <!-- List of languages -->
     <div
       v-if="languagesStore.languageCount > 0"
-      class="flex justify-around flex-wrap mb-10"
+      class="flex justify-around flex-col md:flex-row flex-wrap mb-10"
     >
       <div
-        class="border w-96 mb-8 px-4 cursor-pointer"
+        class="flex flex-col justify-around md:w-72 lg:w-96 xl:w-128 h-36 mx-5 mb-8 px-4 py-6 cursor-pointer bg-main-blue hover:-translate-y-1 transition-transform ease-in-out"
         v-for="language in languagesStore.allLanguages(true)"
         :key="language"
         @click="pickLanguage(language)"
       >
-        <p class="text-xl mb-2">{{ language }}</p>
-        <p>{{ categoryCount(language.toLowerCase()) }} • {{ wordCount(language.toLowerCase()) }}</p>
+        <p class="text-4xl font-bold mb-2">{{ language }}</p>
+        <p class="text-xl">{{ categoryCount(language.toLowerCase()) }} • {{ wordCount(language.toLowerCase()) }}</p>
       </div>
     </div>
     <div v-else>
-      <p>You don't have any language</p>
+      <p>There's nothing here...</p>
     </div>
 
     <!-- New language form -->
@@ -27,6 +27,7 @@
       <p
         @click="showNewLanguageForm = true"
         v-if="!showNewLanguageForm"
+        class="text-xl cursor-pointer"
       >
         Add a new language
       </p>

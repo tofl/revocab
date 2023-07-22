@@ -1,10 +1,10 @@
 <template>
     <table
       v-if="words.length > 0"
-      class="mx-auto"
+      class="text-lg text-center"
     >
-      <tr>
-        <th class="border-r border-b p-3">Word</th>
+      <tr class="sticky top-0 text-main-blue bg-main-green">
+        <th class="border-b p-3">Word</th>
         <th class="border-b p-3">Meaning</th>
       </tr>
 
@@ -14,7 +14,7 @@
         @mouseover="hoveredWord = word.id"
         @mouseleave="hoveredWord = ''"
       >
-        <td class="border-r border-b p-3">{{ word.word }}</td>
+        <td class="border-b p-3">{{ word.word }}</td>
         <td class="border-b p-3">{{ word.translation }}</td>
         <td class="w-14">
           <span
