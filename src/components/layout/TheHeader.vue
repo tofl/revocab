@@ -5,12 +5,66 @@
     </div>
 
     <div>
-      <button>Import</button>
-      <button>Export</button>
+      <button @click="saveStore">Save</button>
+
+      <button
+        class="ml-3"
+        @click="showImportDialog = true"
+      >
+        Import
+      </button>
+      <BaseDialog
+        :show="showImportDialog"
+        @close="showImportDialog = false"
+      >
+        <form>
+          <p class="text-2xl">Import a file</p>
+          <p class="mb-4">You can import your previously saved words using the simple form below.</p>
+
+          <div class="flex">
+            <input
+              type="file"
+              ref="fileUploader"
+              @change="handleFile"
+            />
+            <p v-if="uploadIsDone">
+              Successfully uploaded
+            </p>
+          </div>
+        </form>
+      </BaseDialog>
     </div>
   </header>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import BaseDialog from '@/components/ui/BaseDialog.vue';
+import { useLanguagesStore } from '@/stores/languages';
+
+const languagesStore = useLanguagesStore();
+
+async function saveStore() {
+  const blob = new Blob([JSON.stringify(languagesStore.data)], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.download = 'revocab.json';
+  a.href = window.URL.createObjectURL(blob);
+  a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+  a.click();
+}
+
+const showImportDialog = ref(false);
+const uploadIsDone = ref(false);
+
+function handleFile(e) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    languagesStore.$patch({ data: JSON.parse(reader.result) });
+    localStorage.setItem('data', reader.result);
+    uploadIsDone.value = true;
+  };
+
+  reader.readAsText(e.target.files[0]);
+}
 </script>
