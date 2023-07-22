@@ -66,6 +66,23 @@ export const useLanguagesStore = defineStore('languages', {
             return language => Object.keys(this.data[language]).reduce((accumulator, currentValue) => {
                 return accumulator + this.data[language][currentValue].reduce((acc) => acc + 1, 0);
             }, 0);
+        },
+
+        /**
+         * Returns a random word.
+         *
+         * @returns {function}
+         */
+        randomWord() {
+            return (language, category) => {
+                if (category === 'all') {
+                    const words = this.allWords(language);
+                    return words[Math.floor(Math.random() * words.length)];
+                } else {
+                    const words = this.wordsFromCategory(language, category);
+                    return words[Math.floor(Math.random() * words.length)];
+                }
+            };
         }
     },
 
