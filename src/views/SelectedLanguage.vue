@@ -6,7 +6,12 @@
 
         <div class="flex justify-around mb-4 md:flex-col md:items-center">
           <p>
-            <button @click="startPractice">Practice</button>
+            <BaseButton
+              @click="startPractice"
+              class="mb-2"
+            >
+              Practice
+            </BaseButton>
           </p>
           <form>
             <select v-model="selectedCategory">
@@ -142,6 +147,7 @@ import { useRoute, useRouter } from 'vue-router';
 import WordList from '@/components/words/WordList.vue';
 import BaseContainer from '@/components/ui/BaseContainer.vue';
 import BaseDialog from '@/components/ui/BaseDialog.vue';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const router = useRouter();
 const route = useRoute();

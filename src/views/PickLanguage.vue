@@ -32,14 +32,13 @@
         Add a new language
       </p>
       <div v-else>
-        <input
+        <BaseTextInput
           v-model="languageName"
-          type="text"
-          placeholder="Type in the name of the language"
-          class="border"
+          class="mr-4"
+          placeholder="Type in the language"
           autofocus
         />
-        <button>Add</button>
+        <BaseButton>Add</BaseButton>
       </div>
     </form>
   </BaseContainer>
@@ -50,6 +49,8 @@ import { useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useLanguagesStore } from '@/stores/languages';
 import BaseContainer from '@/components/ui/BaseContainer.vue';
+import BaseButton from '@/components/ui/BaseButton.vue';
+import BaseTextInput from '@/components/ui/BaseTextInput.vue';
 
 const languagesStore = useLanguagesStore();
 

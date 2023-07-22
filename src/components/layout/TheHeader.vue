@@ -11,14 +11,20 @@
       </div>
 
       <div>
-        <button @click="saveStore">Save</button>
+        <BaseButton
+          @click="saveStore"
+          type="outline"
+        >
+          Save
+        </BaseButton>
 
-        <button
+        <BaseButton
+          type="outline"
           class="ml-3"
           @click="showImportDialog = true"
         >
           Import
-        </button>
+        </BaseButton>
         <BaseDialog
           :show="showImportDialog"
           @close="showImportDialog = false"
@@ -49,6 +55,7 @@ import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import BaseDialog from '@/components/ui/BaseDialog.vue';
 import { useLanguagesStore } from '@/stores/languages';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const languagesStore = useLanguagesStore();
 
@@ -75,13 +82,3 @@ function handleFile(e) {
   reader.readAsText(e.target.files[0]);
 }
 </script>
-
-<style scoped>
-button {
-  transition: 500ms ease-in-out;
-}
-
-button:hover {
-  transform: translateY(-5px);
-}
-</style>
