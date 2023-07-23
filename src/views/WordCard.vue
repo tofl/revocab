@@ -1,5 +1,6 @@
 <template>
     <div
+      v-if="randomWord"
       class="h-screen flex flex-col justify-between"
       @keydown="nextStep"
     >
@@ -38,6 +39,10 @@ randomWord.value = languagesStore.randomWord(route.params.language, route.params
 
 function endPractice() {
   router.push({ name: 'language' });
+}
+
+if (!randomWord.value) {
+  endPractice();
 }
 
 // 1 => Word not show yet
