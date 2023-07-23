@@ -21,14 +21,27 @@
         </p>
       </div>
 
-      <p class="p-4 mt-28 text-right">Press `Space` to continue</p>
+      <p class="mx-auto p-4 mt-28 text-right">
+        <span class="hidden md:inline">Press `Space` to continue</span>
+        <BaseButton
+          class="md:hidden"
+          @click="nextStep"
+        >
+          Continue
+        </BaseButton>
+      </p>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import defaultTheme from 'tailwindcss/defaultTheme';
 import { useLanguagesStore } from '@/stores/languages';
+import BaseButton from '@/components/ui/BaseButton.vue';
+
+console.log(defaultTheme.screens);
+console.log(window.innerWidth);
 
 const languagesStore = useLanguagesStore();
 const route = useRoute();
@@ -50,13 +63,6 @@ if (!randomWord.value) {
 const step = ref(1);
 const hideTranslation = ref(true);
 
-document.addEventListener('keydown', (e) => {
-  if (e.code === 'Space') {
-    nextStep();
-  } else if (e.code === 'Escape') {
-    endPractice();
-  }
-});
 function nextStep() {
   if (step.value === 1) {
     hideTranslation.value = false;
@@ -67,4 +73,12 @@ function nextStep() {
     step.value = 1;
   }
 }
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') {
+    nextStep();
+  } else if (e.code === 'Escape') {
+    endPractice();
+  }
+});
 </script>
