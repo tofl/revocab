@@ -122,5 +122,10 @@ export const useLanguagesStore = defineStore('languages', {
             delete this.data[language][category];
             localStorage.setItem('data', JSON.stringify(this.data));
         },
+
+        deleteLanguage(language) {
+            delete this.data[language];
+            localStorage.setItem('data', JSON.stringify(this.data));
+        },
     },
 });

@@ -1,6 +1,9 @@
 <template>
   <BaseContainer class="mt-5">
-    <div class="flex flex-col md:flex-row justify-around items-center md:items-start">
+    <div
+      v-if="languagesStore.data[language.toLowerCase()]"
+      class="flex flex-col md:flex-row justify-around items-center md:items-start"
+    >
       <div class="mb-8 md:sticky md:top-5">
         <h1 class="text-8xl mb-4 text-main-blue">{{ language }}</h1>
 
@@ -149,6 +152,26 @@
               </form>
             </template>
           </BaseDialog>
+
+          <p
+            @click="showDeleteLanguageDialog = true"
+            class="text-lg mr-3 md:mr-0 md:text-2xl cursor-pointer md:mb-5"
+          >
+            Delete language
+          </p>
+          <BaseDialog
+            :show="showDeleteLanguageDialog"
+            @close="showDeleteLanguageDialog = false"
+          >
+            <template #title>
+              <p class="text-2xl mb-4">Delete a language</p>
+            </template>
+
+            <template #default>
+              <p class="text-lg">You are about to delete a language and lose all associated words. Do you want to proceed ?</p>
+              <BaseButton @click="deleteLanguage">Proceed</BaseButton>
+            </template>
+          </BaseDialog>
         </div>
       </div>
 
@@ -233,5 +256,13 @@ function addCategory() {
   showNewCategoryDialog.value = false;
   categoryToDelete.value = newCategory.value.toLowerCase();
   newCategory.value = '';
+}
+
+// Delete language
+const showDeleteLanguageDialog = ref(false);
+function deleteLanguage() {
+  languagesStore.deleteLanguage(language.value.toLowerCase());
+  showDeleteLanguageDialog.value = false;
+  router.push('/');
 }
 </script>
