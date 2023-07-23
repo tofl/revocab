@@ -34,14 +34,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import defaultTheme from 'tailwindcss/defaultTheme';
 import { useLanguagesStore } from '@/stores/languages';
 import BaseButton from '@/components/ui/BaseButton.vue';
-
-console.log(defaultTheme.screens);
-console.log(window.innerWidth);
 
 const languagesStore = useLanguagesStore();
 const route = useRoute();

@@ -8,6 +8,7 @@
           <p>
             <BaseButton
               @click="startPractice"
+              :disabled="languagesStore.wordsFromCategory(language.toLowerCase(), selectedCategory).length === 0"
               class="mb-5"
             >
               Practice
