@@ -1,19 +1,29 @@
 <template>
-  <teleport to="body">
+  <teleport to="html">
     <!-- Backdrop -->
     <div
       v-if="show"
       @click="$emit('close')"
-      class="fixed top-0 left-0 w-screen h-screen bg-black/50"
-    />
-
-    <dialog
-      open
-      class="p-3"
-      v-if="show"
+      class="flex flex-col justify-center fixed top-0 left-0 w-screen h-screen bg-black/50"
     >
-      <slot></slot>
-    </dialog>
+      <!-- fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -->
+      <dialog
+        open
+        class="-translate-y-1/2 p-5 rounded-sm"
+        v-if="show"
+      >
+        <div class="flex justify-between mb-4">
+          <slot name="title"></slot>
+          <p
+            @click="$emit('close')"
+            class="cursor-pointer"
+          >
+            x
+          </p>
+        </div>
+        <slot></slot>
+      </dialog>
+    </div>
   </teleport>
 </template>
 
@@ -23,6 +33,7 @@ defineProps({
     type: Boolean,
     required: true,
   },
+  title: String,
 });
 
 defineEmits(['close']);

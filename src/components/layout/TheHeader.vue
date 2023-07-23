@@ -25,25 +25,32 @@
         >
           Import
         </BaseButton>
+
         <BaseDialog
           :show="showImportDialog"
           @close="showImportDialog = false"
         >
-          <form>
-            <p class="text-2xl">Import a file</p>
-            <p class="mb-4">You can import your previously saved words using the simple form below.</p>
+            <template #title>
+              <div>
+                <p class="text-2xl">Import a file</p>
+                <p class="mb-4">You can import your previously saved words using the simple form below.</p>
+              </div>
+            </template>
 
-            <div class="flex">
-              <input
-                type="file"
-                ref="fileUploader"
-                @change="handleFile"
-              />
-              <p v-if="uploadIsDone">
-                Successfully uploaded
-              </p>
-            </div>
-          </form>
+            <template #default>
+              <form>
+                <div class="flex">
+                  <input
+                    type="file"
+                    ref="fileUploader"
+                    @change="handleFile"
+                  />
+                  <p v-if="uploadIsDone">
+                    Successfully uploaded
+                  </p>
+                </div>
+              </form>
+            </template>
         </BaseDialog>
       </div>
     </div>

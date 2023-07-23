@@ -8,11 +8,12 @@
           <p>
             <BaseButton
               @click="startPractice"
-              class="mb-2"
+              class="mb-5"
             >
               Practice
             </BaseButton>
           </p>
+
           <form>
             <select v-model="selectedCategory">
               <option
@@ -37,9 +38,9 @@
             :show="showNewWordDialog"
             @close="showNewWordDialog = false"
           >
-            <form @submit.prevent="addWord">
-              <div class="flex mb-4">
-                <p class="text-2xl mr-4">Add a new word...</p>
+            <template #title>
+              <p class="text-2xl mr-4">Add a new word...</p>
+              <div class="flex">
                 <select v-model="newWordCategory">
                   <option
                     v-for="category in languagesStore.allCategories(language.toLowerCase())"
@@ -50,21 +51,25 @@
                   </option>
                 </select>
               </div>
+            </template>
 
-              <div>
-                <input
-                  type="text"
-                  v-model.trim="newWord"
-                  :placeholder="`Word in ${language.toLowerCase()}`"
-                />
-                <input
-                  type="text"
-                  v-model.trim="translation"
-                  placeholder="Meaning"
-                />
-                <button>Add</button>
-              </div>
-            </form>
+            <template #default>
+              <form @submit.prevent="addWord">
+                <div>
+                  <BaseTextInput
+                    v-model.trim="newWord"
+                    :placeholder="`Word in ${language.toLowerCase()}`"
+                    class="mr-2"
+                  />
+                  <BaseTextInput
+                    v-model.trim="translation"
+                    placeholder="Meaning"
+                    class="mr-2"
+                  />
+                  <BaseButton type="outline">Add</BaseButton>
+                </div>
+              </form>
+            </template>
           </BaseDialog>
 
           <p
@@ -77,18 +82,22 @@
             :show="showNewCategoryDialog"
             @close="showNewCategoryDialog = false"
           >
-            <form @submit.prevent="addCategory">
+            <template #title>
               <p class="text-2xl mb-4">Add a category</p>
+            </template>
 
-              <div>
-                <input
-                  type="text"
-                  v-model="newCategory"
-                  placeholder="Verb, adjective, ..."
-                />
-                <button>Add</button>
-              </div>
-            </form>
+            <template #default>
+              <form @submit.prevent="addCategory">
+                <div>
+                  <BaseTextInput
+                    v-model="newCategory"
+                    placeholder="Verb, adjective, ..."
+                    class="mr-2"
+                  />
+                  <BaseButton type="outline">Add</BaseButton>
+                </div>
+              </form>
+            </template>
           </BaseDialog>
 
           <p
@@ -102,30 +111,42 @@
             :show="showDeleteCategoryDialog"
             @close="showDeleteCategoryDialog = false"
           >
-            <form @submit.prevent="deleteCategory">
+            <template #title>
               <p class="text-2xl mb-4">Remove a category</p>
+            </template>
 
-              <div>
-                <select v-model="categoryToDelete">
-                  <option
-                    v-for="category in categoriesAvailableToDelete"
-                    :key="category"
-                    :value="category"
+            <template #default>
+              <form @submit.prevent="deleteCategory">
+                <div>
+                  <select
+                    v-model="categoryToDelete"
+                    class="mr-2 text-xl"
                   >
-                    {{ displayedWordCategoryName(category) }}
-                  </option>
-                </select>
+                    <option
+                      v-for="category in categoriesAvailableToDelete"
+                      :key="category"
+                      :value="category"
+                    >
+                      {{ displayedWordCategoryName(category) }}
+                    </option>
+                  </select>
 
-                <input
-                  type="checkbox"
-                  id="deleteAllWords"
-                  v-model="deleteAllWordsFromCategory"
-                />
-                <label>Delete associated words</label>
+                  <input
+                    type="checkbox"
+                    id="deleteAllWords"
+                    v-model="deleteAllWordsFromCategory"
+                  />
+                  <label
+                    for="deleteAllWords"
+                    class="mr-2 text-xl"
+                  >
+                    Delete associated words
+                  </label>
 
-                <button>Delete</button>
-              </div>
-            </form>
+                  <BaseButton type="outline">Delete</BaseButton>
+                </div>
+              </form>
+            </template>
           </BaseDialog>
         </div>
       </div>
@@ -148,6 +169,7 @@ import WordList from '@/components/words/WordList.vue';
 import BaseContainer from '@/components/ui/BaseContainer.vue';
 import BaseDialog from '@/components/ui/BaseDialog.vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
+import BaseTextInput from '@/components/ui/BaseTextInput.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -189,7 +211,7 @@ function addWord() {
 // Delete category
 const categoriesAvailableToDelete = computed(() => languagesStore.allCategories(language.value.toLowerCase()).filter((c) => c !== 'all'));
 const showDeleteCategoryDialog = ref(false);
-const categoryToDelete = ref(categoriesAvailableToDelete.value[0]); // TODO propriété pas réévaluée après ajout d'une catégorie
+const categoryToDelete = ref(categoriesAvailableToDelete.value[0]);
 const deleteAllWordsFromCategory = ref(false);
 function deleteCategory() {
   languagesStore.deleteCategory(language.value.toLowerCase(), categoryToDelete.value.toLowerCase(), deleteAllWordsFromCategory.value);

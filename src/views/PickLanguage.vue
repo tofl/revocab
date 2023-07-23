@@ -16,7 +16,7 @@
       </div>
     </div>
     <div v-else>
-      <p>There's nothing here...</p>
+      <p class="text-center text-xl mb-8">There's nothing here...</p>
     </div>
 
     <!-- New language form -->
