@@ -11,6 +11,4 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 
-console.log(import.meta.env.VITE_ANALYTICS_ID);
-
 app.mount('#app');
