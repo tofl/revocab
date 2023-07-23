@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import PickLanguage from '@/views/PickLanguage.vue';
 import SelectedLanguage from '@/views/SelectedLanguage.vue';
 import WordCard from '@/views/WordCard.vue';
-import NotFound from '@/views/NotFound.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +24,7 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'notFound',
-      component: NotFound,
+      redirect: '/',
     },
   ],
 });
