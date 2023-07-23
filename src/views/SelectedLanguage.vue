@@ -4,13 +4,14 @@
       v-if="languagesStore.data[language.toLowerCase()]"
       class="flex flex-col md:flex-row justify-around items-center md:items-start"
     >
-      <div class="mb-8 md:sticky md:top-5">
-        <h1 class="text-8xl mb-4 text-main-blue">{{ language }}</h1>
+      <div class="mb-8 md:sticky md:top-5 bg-main-blue p-10">
+        <h1 class="text-8xl mb-4 text-main-dark text-center">{{ language }}</h1>
 
         <div class="flex justify-around mb-4 md:flex-col md:items-center">
           <p>
             <BaseButton
               @click="startPractice"
+              type="outline"
               :disabled="languagesStore.wordsFromCategory(language.toLowerCase(), selectedCategory).length === 0"
               class="mb-5"
             >
@@ -107,7 +108,7 @@
           <p
             v-if="languagesStore.categoryCount(language.toLowerCase()) > 0"
             @click="showDeleteCategoryDialog = true"
-            class="text-lg  md:text-2xl cursor-pointer md:mb-5"
+            class="text-lg md:text-2xl cursor-pointer md:mb-5 mr-3 md:mr-0"
           >
             Delete category
           </p>

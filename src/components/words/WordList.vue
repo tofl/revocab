@@ -3,7 +3,7 @@
       v-if="words.length > 0"
       class="text-lg text-center"
     >
-      <tr class="sticky top-0 text-main-blue bg-main-green">
+      <tr class="sticky top-0 text-main-dark bg-main-green">
         <th class="border-b p-3">Word</th>
         <th class="border-b p-3">Meaning</th>
       </tr>
