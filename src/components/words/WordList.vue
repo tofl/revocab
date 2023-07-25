@@ -1,7 +1,7 @@
 <template>
     <table
       v-if="words.length > 0"
-      class="text-lg text-center"
+      class="text-2xl text-center w-full"
     >
       <tr class="sticky top-0 text-main-dark bg-main-green">
         <th class="border-b p-3">Word</th>
@@ -14,11 +14,11 @@
         @mouseover="hoveredWord = word.id"
         @mouseleave="hoveredWord = ''"
       >
-        <td class="border-b p-3">{{ word.word }}</td>
-        <td class="border-b p-3">{{ word.translation }}</td>
-        <td class="w-14">
+        <td class="border p-3">{{ word.word }}</td>
+        <td class="border p-3">
+          {{ word.translation }}
           <span
-            class="cursor-pointer"
+            class="absolute right-2 text-lg cursor-pointer"
             v-show="hoveredWord === word.id"
             @click="deleteWord(word.id)"
           >
@@ -30,7 +30,7 @@
 
   <p
     v-else
-    class="text-center"
+    class="text-center text-2xl mt-8"
   >
     There are no words
   </p>
