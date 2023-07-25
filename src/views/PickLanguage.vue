@@ -1,5 +1,6 @@
 <template>
-  <BaseContainer class="mt-12">
+  <BaseContainer class="p-8 md:px-0">
+    <h1 class="text-4xl font-bold mb-8">Practice your vocabulary on <span class="italic">Revocab</span></h1>
     <!-- List of languages -->
     <div
       v-if="languagesStore.languageCount > 0"
@@ -25,11 +26,13 @@
       @submit.prevent="submitLanguage"
     >
       <p
-        @click="showNewLanguageForm = true"
         v-if="!showNewLanguageForm"
         class="text-xl cursor-pointer"
       >
-        Add a new language
+        <span @click="showNewLanguageForm = true">
+          Add a new language
+        </span>
+        or <BaseButton @click="showImportDialog = true">Import</BaseButton>
       </p>
       <div v-else>
         <BaseTextInput
@@ -40,6 +43,34 @@
         />
         <BaseButton>Add</BaseButton>
       </div>
+
+      <!-- Import a new language -->
+      <BaseDialog
+        :show="showImportDialog"
+        @close="showImportDialog = false"
+      >
+        <template #title>
+          <div>
+            <p class="text-2xl">Import a file</p>
+            <p class="mb-4">You can import your previously saved words using the simple form below.</p>
+          </div>
+        </template>
+
+        <template #default>
+          <form>
+            <div class="flex">
+              <input
+                type="file"
+                ref="fileUploader"
+                @change="handleFile"
+              />
+              <p v-if="uploadIsDone">
+                Successfully uploaded
+              </p>
+            </div>
+          </form>
+        </template>
+      </BaseDialog>
     </form>
   </BaseContainer>
 </template>
@@ -51,6 +82,7 @@ import { useLanguagesStore } from '@/stores/languages';
 import BaseContainer from '@/components/ui/BaseContainer.vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
 import BaseTextInput from '@/components/ui/BaseTextInput.vue';
+import BaseDialog from '@/components/ui/BaseDialog.vue';
 
 const languagesStore = useLanguagesStore();
 
@@ -91,4 +123,23 @@ const wordCount = computed(() => {
     return `${count} word`;
   }
 });
+
+const showImportDialog = ref(false);
+const uploadIsDone = ref(false);
+
+function handleFile(e) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const { languageName, content } = JSON.parse(reader.result);
+    // console.log(languageName, content);
+    const { data } = languagesStore;
+    data[languageName.toLowerCase()] = content;
+    console.log(data);
+    languagesStore.$patch({ data });
+    localStorage.setItem('data', JSON.stringify(data));
+    uploadIsDone.value = true;
+  };
+
+  reader.readAsText(e.target.files[0]);
+}
 </script>
