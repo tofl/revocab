@@ -9,7 +9,7 @@
 
     <dialog
       open
-      class="top-1/2 -translate-y-1/2 p-5 rounded-sm"
+      class="top-1/2 -translate-y-1/2 p-5 fixed rounded-sm"
       v-if="show"
     >
       <div class="flex justify-between mb-4">
